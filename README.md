@@ -1,6 +1,8 @@
 # Folk CRM MCP Server
 
-An MCP (Model Context Protocol) server that enables Claude Code to interact with your Folk CRM workspace. Manage contacts, companies, groups, notes, reminders, and more directly from your AI assistant.
+An MCP (Model Context Protocol) server that enables Claude to interact with your Folk CRM workspace. Manage contacts, companies, groups, notes, reminders, and more directly from your AI assistant.
+
+Works with **Claude Code** (CLI), **Claude Desktop**, and **Claude Cowork**.
 
 ## Prerequisites
 
@@ -60,6 +62,58 @@ claude mcp add \
   -e FOLK_API_KEY=your_api_key \
   folk-crm \
   -- node /path/to/folk-crm-mcp/build/index.js
+```
+
+## Using with Claude Desktop & Cowork
+
+[Claude Cowork](https://support.claude.com/en/articles/13345190-getting-started-with-cowork) extends Claude's agentic capabilities to Claude Desktop, allowing Claude to execute complex, multi-step tasks on your behalf.
+
+### Setup
+
+1. **Open Claude Desktop settings**
+   - Click the Claude menu → Settings → Developer → Edit Config
+   - Or manually edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
+
+2. **Add the Folk CRM server configuration:**
+
+```json
+{
+  "mcpServers": {
+    "folk-crm": {
+      "command": "npx",
+      "args": ["-y", "folk-crm-mcp"],
+      "env": {
+        "FOLK_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+3. **Restart Claude Desktop** completely (quit and reopen)
+
+4. **Verify the connection**
+   - Look for the MCP icon (hammer) in the chat input area
+   - Click it to see available Folk CRM tools
+
+### Configuration File Locations
+
+| OS | Path |
+|----|------|
+| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+| Linux | `~/.config/Claude/claude_desktop_config.json` |
+
+### Troubleshooting
+
+Check the MCP server logs if you encounter issues:
+
+```bash
+# macOS
+cat ~/Library/Logs/Claude/mcp-server-folk-crm.log
+
+# Windows
+type %APPDATA%\Claude\logs\mcp-server-folk-crm.log
 ```
 
 ## Available Tools
