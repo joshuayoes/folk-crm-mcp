@@ -17,6 +17,9 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
+    "build:binary:arm64": "bun build src/index.ts --compile --target=bun-darwin-arm64 --outfile dist/folk-crm-mcp-darwin-arm64",
+    "build:binary:x64": "bun build src/index.ts --compile --target=bun-darwin-x64 --outfile dist/folk-crm-mcp-darwin-x64",
+    "build:binaries": "npm run build:binary:arm64 && npm run build:binary:x64",
     "start": "node build/index.js",
     "watch": "tsc --watch",
     "predev": "npm run build",

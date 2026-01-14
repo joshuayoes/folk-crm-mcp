@@ -136,6 +136,68 @@ This error occurs when Claude Desktop can't find `npx` because it doesn't have a
 
 3. Restart Claude Desktop completely (Cmd+Q / quit and reopen)
 
+## Non-Developer Setup (macOS Binary)
+
+If you don't have Node.js installed, you can download a pre-built binary for your Mac.
+
+### Step 1: Download the Binary
+
+1. Go to the [latest release](https://github.com/joshuayoes/folk-crm-mcp/releases/latest)
+2. Download the correct file for your Mac:
+   - **Apple Silicon (M1/M2/M3/M4)**: `folk-crm-mcp-darwin-arm64`
+   - **Intel Mac**: `folk-crm-mcp-darwin-x64`
+
+> **Tip**: Click the Apple menu () → About This Mac. If it says "Apple M1" or similar, choose arm64. If it says "Intel", choose x64.
+
+### Step 2: Configure Claude Desktop
+
+1. Open Claude Desktop settings:
+   - Click Claude menu → Settings → Developer → Edit Config
+
+2. Add this configuration (replace `YOUR_USERNAME` and `your_api_key_here`):
+
+```json
+{
+  "mcpServers": {
+    "folk-crm": {
+      "command": "/Users/YOUR_USERNAME/Downloads/folk-crm-mcp-darwin-arm64",
+      "env": {
+        "FOLK_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+> **Note**: Replace `YOUR_USERNAME` with your macOS username, and use the correct binary name for your Mac type. Get your API key from [Folk API settings](https://app.folk.app/apps/contacts/network/settings/api-keys).
+
+3. Restart Claude Desktop completely (Cmd+Q, then reopen)
+
+### Step 3: Verify
+
+Look for the MCP icon (hammer) in Claude Desktop's chat input area. Click it to see Folk CRM tools.
+
+### Optional: Move Binary to a Permanent Location
+
+If you want to keep your Downloads folder clean, you can ask Claude to help you move the binary:
+
+```
+Move the folk-crm-mcp binary from my Downloads to ~/.local/bin and update my Claude Desktop config
+```
+
+### Troubleshooting: "Cannot be opened because it is from an unidentified developer"
+
+macOS may block the binary because it's unsigned. To allow it:
+
+1. Open **System Settings** → **Privacy & Security**
+2. Scroll down to find the blocked app message
+3. Click **Allow Anyway**
+
+Or ask Claude to run this command:
+```bash
+xattr -d com.apple.quarantine ~/Downloads/folk-crm-mcp-darwin-arm64
+```
+
 ## Available Tools
 
 ### People Management

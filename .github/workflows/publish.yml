@@ -3,8 +3,10 @@ name: Publish Package to npm
 on:
   release:
     types: [published]
+
 jobs:
-  build:
+  # Publish to npm
+  publish-npm:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -17,3 +19,37 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - run: npm ci
       - run: npm publish --access public
+
+  # Build and upload macOS binaries
+  build-binaries:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        include:
+          - target: bun-darwin-arm64
+            asset_name: folk-crm-mcp-darwin-arm64
+          - target: bun-darwin-x64
+            asset_name: folk-crm-mcp-darwin-x64
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build standalone binary
+        run: |
+          mkdir -p dist
+          bun build src/index.ts --compile --target=${{ matrix.target }} --outfile dist/${{ matrix.asset_name }}
+
+      - name: Upload binary to release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{ github.event.release.tag_name }} dist/${{ matrix.asset_name }} --clobber
