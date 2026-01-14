@@ -47,21 +47,13 @@ export FOLK_API_KEY=your_api_key_here
 ## Registering with Claude Code
 
 ```bash
-claude mcp add \
-  --transport stdio \
-  -e FOLK_API_KEY=your_api_key \
-  folk-crm \
-  -- npx folk-crm-mcp
+claude mcp add folk-crm -e FOLK_API_KEY=your_api_key -- npx folk-crm-mcp
 ```
 
 Or for local development:
 
 ```bash
-claude mcp add \
-  --transport stdio \
-  -e FOLK_API_KEY=your_api_key \
-  folk-crm \
-  -- node /path/to/folk-crm-mcp/build/index.js
+claude mcp add folk-crm -e FOLK_API_KEY=your_api_key -- node /path/to/folk-crm-mcp/build/index.js
 ```
 
 ## Using with Claude Desktop & Cowork
@@ -115,6 +107,34 @@ cat ~/Library/Logs/Claude/mcp-server-folk-crm.log
 # Windows
 type %APPDATA%\Claude\logs\mcp-server-folk-crm.log
 ```
+
+#### "Failed to spawn process: No such file or directory"
+
+This error occurs when Claude Desktop can't find `npx` because it doesn't have access to your full shell PATH. This is common when using version managers like **asdf**, **nvm**, **fnm**, or **volta**.
+
+**Solution:** Use the full path to `npx` in your config:
+
+1. Find your `npx` path:
+   ```bash
+   which npx
+   ```
+
+2. Update your config to use the full path:
+   ```json
+   {
+     "mcpServers": {
+       "folk-crm": {
+         "command": "/Users/yourname/.asdf/shims/npx",
+         "args": ["-y", "folk-crm-mcp"],
+         "env": {
+           "FOLK_API_KEY": "your_api_key_here"
+         }
+       }
+     }
+   }
+   ```
+
+3. Restart Claude Desktop completely (Cmd+Q / quit and reopen)
 
 ## Available Tools
 
