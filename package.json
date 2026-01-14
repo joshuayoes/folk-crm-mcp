@@ -1,0 +1,45 @@
+{
+  "name": "folk-crm-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for interacting with Folk CRM",
+  "type": "module",
+  "bin": {
+    "folk-crm-mcp": "build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshuayoes/folk-crm-mcp.git"
+  },
+  "files": [
+    "build",
+    "package.json"
+  ],
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
+    "start": "node build/index.js",
+    "watch": "tsc --watch",
+    "predev": "npm run build",
+    "dev": "npx @modelcontextprotocol/inspector node build/index.js"
+  },
+  "keywords": [
+    "folk",
+    "crm",
+    "mcp",
+    "modelcontextprotocol"
+  ],
+  "author": {
+    "name": "Joshua Yoes",
+    "url": "https://joshuayoes.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.2",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/inspector": "^0.16.8",
+    "@types/node": "^22.0.2",
+    "typescript": "^5.5.4"
+  }
+}
