@@ -7,7 +7,7 @@ Works with **Claude Code** (CLI), **Claude Desktop**, and **Claude Cowork**.
 ## Prerequisites
 
 - **Folk Account**: You need a Folk CRM account with API access
-- **API Key**: Generate an API key from your Folk workspace settings
+- **API Key**: Generate an API key from your [Folk API settings](https://app.folk.app/apps/contacts/network/settings/api-keys)
 - **Node.js**: Version 18 or higher
 - **Claude Code**: Desktop or CLI with MCP support
 
